@@ -62,7 +62,11 @@
                         resultEl.textContent = "No remote date found.";
                         return;
                     }
-                    const isUpToDate = new Date(localDate) >= new Date(remoteDate);
+                    const localDateObj = new Date(localDate);
+                    const remoteDateObj = new Date(remoteDate);
+                    const isUpToDate = localDateObj.getFullYear() === remoteDateObj.getFullYear() &&
+                                       localDateObj.getMonth() === remoteDateObj.getMonth() &&
+                                       localDateObj.getDate() === remoteDateObj.getDate();
                     resultEl.textContent = isUpToDate
                         ? "Your local version is up to date."
                         : "A newer version is available. Last update: " + remoteDate;
