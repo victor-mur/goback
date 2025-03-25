@@ -62,7 +62,8 @@
                         resultEl.textContent = "No remote date found.";
                         return;
                     }
-                    const isUpToDate = new Date(localDate) >= new Date(remoteDate);
+                    // check if its the same day
+                    const isUpToDate = localDate === remoteDate.split(",")[1].trim();
                     resultEl.textContent = isUpToDate
                         ? "Your local version is up to date."
                         : "A newer version is available. Last update: " + remoteDate;
