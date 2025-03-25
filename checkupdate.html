@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>PDF Version Check</title>
+</head>
+<body>
+    <h1>PDF Version Check</h1>
+    <div id="config">
+        <div>
+            <label for="server">Server Domain:</label>
+            <input type="text" id="server" value="" />
+        </div>
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" value="" />
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" value="" />
+        </div>
+        <button id="checkBtn">Check PDF Version</button>
+    </div>
+    <div id="result"></div>
+    <script>
+        (function() {
+            const params = new URLSearchParams(window.location.search);
+            let pdfPath = params.get("path") || "";
+            // remove /compile/ from path
+            pdfPath = pdfPath.replace("/compile/", "");
+            const localDate = params.get("date") || "";
+            const resultEl = document.getElementById("result");
+
+            if (!pdfPath || !localDate) {
+                resultEl.textContent = "Missing path or date parameter.";
+                return;
+            }
+            
+            document.getElementById("checkBtn").addEventListener("click", function() {
+                const serverDomain = document.getElementById("server").value.trim();
+                const username = document.getElementById("username").value.trim();
+                const password = document.getElementById("password").value;
+                
+                if (!serverDomain || !username || !password) {
+                    resultEl.textContent = "Please provide a server domain, username, and password.";
+                    return;
+                }
+                
+                const fetchUrl = "https://" + serverDomain + "/fileadmin/user_upload/" + pdfPath;
+                console.log("Checking PDF version for path:", pdfPath, "and date:", localDate);
+                console.log("Using server:", serverDomain, "username:", username);
+
+                fetch(fetchUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Basic ' + btoa(username + ':' + password)
+                    }
+                })
+                .then(response => {
+                    const remoteDate = response.headers.get('last-modified');
+                    if (!remoteDate) {
+                        resultEl.textContent = "No remote date found.";
+                        return;
+                    }
+                    const isUpToDate = new Date(localDate) >= new Date(remoteDate);
+                    resultEl.textContent = isUpToDate
+                        ? "Your local version is up to date."
+                        : "A newer version is available. Last update: " + remoteDate;
+                })
+                .catch(() => {
+                    resultEl.textContent = "Error fetching metadata.";
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
