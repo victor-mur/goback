@@ -6,8 +6,14 @@
     <title>Close Tab</title>
     <script>
         function closeTab() {
-            window.open("", "_blank", "");
-            window.close();
+            try {
+                window.opener = window;
+                var win = window.open("","_self");
+                win.close();
+                top.close();
+            } catch (e) {
+
+            }
         }
         window.onload = closeTab;
     </script>
