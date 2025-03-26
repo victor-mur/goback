@@ -6,30 +6,47 @@
     <title>PDF Version Check</title>
     <style>
         body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
             margin: 0;
             padding: 20px;
         }
+
         h1 {
             color: #333;
+            text-align: center;
         }
+
         #config {
             background-color: #fff;
             padding: 15px;
             border-radius: 5px;
+            width: 90%;
             max-width: 400px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
+        #checkBtn {
+            display: block;
+            margin: 0 auto;
+        }
+
         #config div {
             margin-bottom: 10px;
         }
+
         label {
             display: block;
             font-weight: bold;
             margin-bottom: 5px;
         }
+
         input[type="text"],
         input[type="password"] {
             width: calc(100% - 12px);
@@ -37,6 +54,7 @@
             border: 1px solid #ccc;
             border-radius: 3px;
         }
+
         button {
             background-color: #4CAF50;
             color: white;
@@ -46,16 +64,19 @@
             cursor: pointer;
             font-size: 16px;
         }
+
         button:hover {
             background-color: #45a049;
         }
+
         #result {
             background-color: #fff;
             padding: 15px;
             border-radius: 5px;
             max-width: 400px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             color: #333;
+            text-align: center;
         }
     </style>
 </head>
@@ -63,17 +84,19 @@
 <body>
     <h1>PDF Version Check</h1>
     <div id="config">
-        <div>
-            <label for="server">Server Domain:</label>
-            <input type="text" id="server" value="" />
-        </div>
-        <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" value="" />
-        </div>
-        <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" value="" />
+        <div id="input">
+            <div>
+                <label for="server">Server Domain:</label>
+                <input type="text" id="server" value="" />
+            </div>
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" value="" />
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" value="" />
+            </div>
         </div>
         <button id="checkBtn">Check PDF Version</button>
     </div>
@@ -95,15 +118,34 @@
                 return;
             }
 
+            // Load saved credentials if they exist
+            document.addEventListener("DOMContentLoaded", () => {
+                const savedServer = localStorage.getItem("server");
+                const savedUsername = localStorage.getItem("username");
+                const savedPassword = localStorage.getItem("password");
+                if (savedServer) document.getElementById("server").value = savedServer;
+                if (savedUsername) document.getElementById("username").value = savedUsername;
+                if (savedPassword) document.getElementById("password").value = savedPassword;
+                // Hide the input fields if they are loaded from storage
+                //if (savedServer && savedUsername && savedPassword) {
+                //    document.getElementById("input").style.display = "none";
+                //}
+            });
+
             document.getElementById("checkBtn").addEventListener("click", function () {
                 const serverDomain = document.getElementById("server").value.trim();
                 const username = document.getElementById("username").value.trim();
                 const password = document.getElementById("password").value;
 
                 if (!serverDomain || !username || !password) {
-                    resultEl.textContent = "Please provide a server domain, username, and password.";
+                    document.getElementById("result").textContent = "Please provide a server domain, username, and password.";
                     return;
                 }
+
+                // Save credentials in localStorage
+                localStorage.setItem("server", serverDomain);
+                localStorage.setItem("username", username);
+                localStorage.setItem("password", password);
 
                 const fetchUrl = "https://" + serverDomain + "/fileadmin/user_upload/" + pdfPath;
                 console.log("Checking PDF version for path:", pdfPath, "and date:", localDate);
@@ -126,7 +168,7 @@
                         const isUpToDate = localDateObj.getFullYear() === remoteDateObj.getFullYear() &&
                             localDateObj.getMonth() === remoteDateObj.getMonth() &&
                             localDateObj.getDate() === remoteDateObj.getDate();
-                        
+
                         // clear any previous content
                         resultEl.textContent = "";
 
@@ -134,7 +176,7 @@
                             resultEl.textContent = "Your local version is up to date.";
                         } else {
                             // show update message
-                            resultEl.textContent = "A newer/different version is available. Last update: " + remoteDate;
+                            resultEl.innerHTML = "A newer/different version is available.<br>Last update: " + remoteDate.substring(4, 16);
 
                             // create and append an update button
                             const updateBtn = document.createElement("button");
