@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8" />
     <title>PDF Version Check</title>
 </head>
+
 <body>
     <h1>PDF Version Check</h1>
     <div id="config">
@@ -23,7 +25,7 @@
     </div>
     <div id="result"></div>
     <script>
-        (function() {
+        (function () {
             const params = new URLSearchParams(window.location.search);
             let pdfPath = params.get("path") || "";
             // extract only the last two segments from the pdfPath
@@ -38,17 +40,17 @@
                 resultEl.textContent = "Missing path or date parameter.";
                 return;
             }
-            
-            document.getElementById("checkBtn").addEventListener("click", function() {
+
+            document.getElementById("checkBtn").addEventListener("click", function () {
                 const serverDomain = document.getElementById("server").value.trim();
                 const username = document.getElementById("username").value.trim();
                 const password = document.getElementById("password").value;
-                
+
                 if (!serverDomain || !username || !password) {
                     resultEl.textContent = "Please provide a server domain, username, and password.";
                     return;
                 }
-                
+
                 const fetchUrl = "https://" + serverDomain + "/fileadmin/user_upload/" + pdfPath;
                 console.log("Checking PDF version for path:", pdfPath, "and date:", localDate);
                 console.log("Using server:", serverDomain, "username:", username);
@@ -59,26 +61,46 @@
                         'Authorization': 'Basic ' + btoa(username + ':' + password)
                     }
                 })
-                .then(response => {
-                    const remoteDate = response.headers.get('last-modified');
-                    if (!remoteDate) {
-                        resultEl.textContent = "No remote date found.";
-                        return;
-                    }
-                    const localDateObj = new Date(localDate);
-                    const remoteDateObj = new Date(remoteDate);
-                    const isUpToDate = localDateObj.getFullYear() === remoteDateObj.getFullYear() &&
-                                       localDateObj.getMonth() === remoteDateObj.getMonth() &&
-                                       localDateObj.getDate() === remoteDateObj.getDate();
-                    resultEl.textContent = isUpToDate
-                        ? "Your local version is up to date."
-                        : "A newer/different version is available. Last update: " + remoteDate;
-                })
-                .catch(() => {
-                    resultEl.textContent = "Error fetching metadata.";
-                });
+                    .then(response => {
+                        const remoteDate = response.headers.get('last-modified');
+                        if (!remoteDate) {
+                            resultEl.textContent = "No remote date found.";
+                            return;
+                        }
+                        const localDateObj = new Date(localDate);
+                        const remoteDateObj = new Date(remoteDate);
+                        const isUpToDate = localDateObj.getFullYear() === remoteDateObj.getFullYear() &&
+                            localDateObj.getMonth() === remoteDateObj.getMonth() &&
+                            localDateObj.getDate() === remoteDateObj.getDate();
+                        
+                        // clear any previous content
+                        resultEl.textContent = "";
+
+                        if (isUpToDate) {
+                            resultEl.textContent = "Your local version is up to date.";
+                        } else {
+                            // show update message
+                            resultEl.textContent = "A newer/different version is available. Last update: " + remoteDate;
+
+                            // create and append an update button
+                            const updateBtn = document.createElement("button");
+                            updateBtn.textContent = "Update Now";
+                            updateBtn.id = "updateBtn";
+                            updateBtn.addEventListener("click", function () {
+                                // open the new PDF in a new tab/window
+                                window.open(fetchUrl, '_blank');
+                            });
+                            // add a line break and then the button
+                            resultEl.appendChild(document.createElement("br"));
+                            resultEl.appendChild(updateBtn);
+                        }
+                    })
+                    .catch(() => {
+                        resultEl.textContent = "Error fetching metadata.";
+                    });
             });
         })();
     </script>
 </body>
+
 </html>
