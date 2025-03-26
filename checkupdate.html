@@ -26,8 +26,11 @@
         (function() {
             const params = new URLSearchParams(window.location.search);
             let pdfPath = params.get("path") || "";
-            // remove /compile/ from path
-            pdfPath = pdfPath.replace("/compile/", "");
+            // extract only the last two segments from the pdfPath
+            const segments = pdfPath.split('/');
+            if (segments.length >= 2) {
+                pdfPath = segments.slice(-2).join('/');
+            }
             const localDate = params.get("date") || "";
             const resultEl = document.getElementById("result");
 
@@ -69,7 +72,7 @@
                                        localDateObj.getDate() === remoteDateObj.getDate();
                     resultEl.textContent = isUpToDate
                         ? "Your local version is up to date."
-                        : "A newer version is available. Last update: " + remoteDate;
+                        : "A newer/different version is available. Last update: " + remoteDate;
                 })
                 .catch(() => {
                     resultEl.textContent = "Error fetching metadata.";
