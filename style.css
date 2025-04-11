@@ -290,97 +290,107 @@ button:active {
 /* --- Responsiveness --- */
 @media (max-width: 600px) {
     body {
-        padding: 20px; /* Maintain base padding */
-        padding-top: 90px; /* Increase top padding slightly for potentially taller logo */
-        /* Ensure vertical centering still works well if content is short */
-        /* justify-content: center; might still be useful depending on overall height */
+        padding: 25px; /* Increase base padding */
+        padding-top: 100px; /* More top padding */
+        font-size: 17px; /* Increase base font size for mobile */
     }
 
     #logo {
-        top: 20px;          /* More space from edge */
-        left: 20px;         /* More space from edge */
-        width: 120px;       /* Increase logo size from previous mobile rule */
+        top: 25px;
+        left: 25px;
+        width: 160px;       /* << Significantly Larger Logo */
     }
 
     #changeCredsBtn {
-        top: 20px;          /* Match logo top spacing */
-        right: 20px;        /* Match logo side spacing */
-        padding: 10px 14px; /* Increase padding for easier tapping */
-        font-size: 0.9em;   /* Increase font size slightly */
+        top: 25px;
+        right: 25px;
+        padding: 12px 16px; /* << Larger Padding */
+        font-size: 1.0em;   /* << Larger Font Size */
     }
 
     h1 {
-        font-size: 2.0em;   /* Increase font size (closer to desktop) */
-        margin-bottom: 30px; /* Maintain decent spacing */
+        font-size: 2.4em;   /* << Larger Font Size (maybe even > desktop) */
+        margin-bottom: 40px;
+        line-height: 1.2; /* Adjust line height if text wraps */
     }
 
     #result {
-        padding: 25px; /* Increase padding */
-        min-height: 110px; /* Increase min-height */
-        font-size: 1.1em; /* Match desktop font size */
-        max-width: 100%; /* Allow full width usage if needed */
+        padding: 30px;     /* << More Padding */
+        min-height: 130px; /* << Larger Min Height */
+        font-size: 1.2em;  /* << Larger Font Size */
+        max-width: 100%;
+        border-radius: 8px; /* Slightly larger radius */
     }
 
     #result span {
-        margin-bottom: 18px; /* Slightly more space */
+        margin-bottom: 20px;
     }
 
     .loader {
-        width: 45px; /* Slightly larger loader */
-        height: 45px;
-        border-width: 6px; /* Thicker border */
+        width: 50px;       /* << Larger Loader */
+        height: 50px;
+        border-width: 7px;
+        margin: 25px auto; /* More margin */
     }
 
     button { /* General button sizing */
-        padding: 14px 22px; /* Significantly larger padding */
-        font-size: 1.05em;  /* Slightly larger font */
-        font-weight: 600; /* Ensure weight is still good */
+        padding: 18px 28px; /* << Much Larger Padding */
+        font-size: 1.15em;  /* << Larger Font */
+        font-weight: 700;   /* << Bolder Font */
+        border-radius: 6px; /* Slightly larger radius */
+        letter-spacing: 0.8px; /* More spacing */
     }
 
     #updateBtn {
-         margin-top: 20px; /* More space before action button */
+         margin-top: 25px; /* More space */
     }
 
     /* Modal Adjustments */
     #credentialModal {
-         padding-top: 40px; /* Reduce padding slightly if modal gets tall */
+         padding-top: 30px; /* Adjust as needed */
     }
 
     .modal-content {
-        padding: 25px 30px; /* Increase padding */
+        padding: 30px 35px; /* << More Padding */
         max-width: 95%;
+        border-radius: 8px;
     }
 
     .modal-content h2 {
-        font-size: 1.5em; /* Increase modal title size */
-        margin-bottom: 25px;
+        font-size: 1.8em;   /* << Larger Title */
+        margin-bottom: 30px;
     }
 
      .modal-content label {
-        font-size: 1em; /* Increase label size */
-        margin-bottom: 10px; /* More space */
+        font-size: 1.1em;   /* << Larger Label */
+        font-weight: 600;   /* Bolder label */
+        margin-bottom: 12px;
      }
 
     .modal-content input[type="text"],
     .modal-content input[type="password"] {
-        padding: 14px; /* Increase input padding */
-        font-size: 1.05em; /* Increase input font size */
+        padding: 18px;     /* << Much Larger Input Padding */
+        font-size: 1.15em; /* << Larger Input Font */
+        border-radius: 6px;
     }
 
+     /* Stack Modal Buttons on mobile */
     .modal-buttons {
-        margin-top: 30px; /* More space before buttons */
-        /* Optional: Stack buttons vertically on very small screens if needed */
-        /* display: flex; flex-direction: column; gap: 10px; align-items: stretch; */
+        margin-top: 35px;
+        display: flex;
+        flex-direction: column; /* << STACK Vertically */
+        gap: 15px;              /* << Add space BETWEEN stacked buttons */
+        align-items: stretch;   /* << Make buttons full width of container */
     }
 
     .modal-buttons button {
          /* Inherits larger general button styles */
-         width: auto; /* Ensure buttons don't stretch full width unless stacked */
-         margin-left: 8px; /* Adjust spacing if needed */
+         margin-left: 0; /* Remove left margin when stacked */
+         width: 100%;    /* Make buttons take full width */
     }
-    .modal-buttons button:first-child {
-        margin-left: 0;
-    }
-
+    /* Optional: Reverse button order visually when stacked */
+    /* .modal-buttons button#saveCredBtn {
+        order: -1;
+    } */
 
 }
