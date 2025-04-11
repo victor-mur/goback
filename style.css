@@ -1,0 +1,340 @@
+/* --- Font Definitions (Keep as is) --- */
+@font-face {
+    font-family: 'National';
+    src: url('fonts/National-Regular.otf') format('opentype');
+    font-weight: 100;
+    font-style: normal;
+}
+/* ... other @font-face rules ... */
+@font-face {
+    font-family: 'National';
+    src: url('fonts/National-BlackItalic.otf') format('opentype');
+    font-weight: 900;
+    font-style: italic;
+}
+/* --- Bold Font --- */
+@font-face {
+    font-family: 'National';
+    src: url('fonts/National-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* --- General Styles --- */
+:root {
+    --primary-color: #005ea5;
+    --secondary-color: #6ebe28; /* << UPDATED Green */
+    --secondary-dark-color: #5ca324; /* << ADDED Darker green for hover */
+    --danger-color: #d9534f;
+    --light-gray: #f7f7f7;
+    --medium-gray: #e1e1e1;
+    --dark-gray: #555;
+    --text-color: #333;
+    --black-color: #000000; /* << ADDED Explicit black */
+    --border-radius: 5px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    /* Remove justify-content: center; to allow content flow from top */
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'National', Arial, sans-serif;
+    font-weight: 400;
+    background-color: var(--light-gray);
+    color: var(--text-color);
+    margin: 0;
+    padding: 20px; /* Base padding */
+    padding-top: 80px; /* << ADDED More top padding to make space for absolute logo */
+    position: relative;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Logo --- */
+#logo {
+    position: absolute; /* << Position independently */
+    top: 20px;         /* << Distance from top */
+    left: 20px;        /* << Distance from left */
+    width: 250px;       /* Adjust size as needed */
+    height: auto;
+    /* margin-bottom: 20px; << REMOVED - No longer needed in flow */
+}
+
+h1 {
+    font-family: 'National', Arial, sans-serif;
+    font-weight: 700;
+    color: var(--black-color); /* << UPDATED to black */
+    text-align: center;
+    /* margin: 0 0 35px 0; << REMOVED/REPLACED */
+    margin-top: 0; /* << Let body padding handle top space */
+    margin-bottom: 35px; /* Adjust spacing below title */
+    font-size: 2.2em;
+}
+
+/* --- Result Area (Keep as is) --- */
+#result {
+    background-color: #fff;
+    padding: 25px 30px;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 450px;
+    min-height: 100px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    color: var(--text-color);
+    text-align: center;
+    margin-top: 15px;
+    font-size: 1.1em;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+#result span {
+    display: block;
+    margin-bottom: 15px;
+}
+/* Add styling for the link in error message */
+#result a {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+#result a:hover {
+    color: #004a8f;
+}
+
+
+/* --- Loading Animation (Keep as is) --- */
+.loader {
+    border: 5px solid var(--medium-gray);
+    border-top: 5px solid var(--primary-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* --- Buttons --- */
+button {
+    font-family: 'National', Arial, sans-serif;
+    font-weight: 600;
+    background-color: var(--secondary-color); /* Use the updated green */
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    margin-left: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+button:hover {
+    background-color: var(--secondary-dark-color); /* << UPDATED Darker green */
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0px);
+}
+
+/* Specific Button Styles */
+#updateBtn {
+     margin-top: 15px;
+     /* Inherits base button style (now green) */
+}
+
+#changeCredsBtn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: var(--primary-color);
+    color: white; /* Ensure text is white */
+    font-size: 0.8em;
+    font-weight: 500;
+    padding: 8px 12px;
+    text-transform: none;
+    letter-spacing: 0;
+}
+#changeCredsBtn:hover {
+    background-color: #004a8f;
+}
+
+#cancelCredBtn {
+    background-color: var(--dark-gray);
+}
+#cancelCredBtn:hover {
+    background-color: #444;
+}
+
+#saveCredBtn {
+     background-color: var(--secondary-color); /* Use the updated green */
+}
+#saveCredBtn:hover {
+     background-color: var(--secondary-dark-color); /* Use the updated darker green */
+}
+
+
+/* --- Modal Styles (Keep as is) --- */
+#credentialModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding-top: 60px;
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    font-family: 'National', Arial, sans-serif;
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 30px 35px;
+    border: none;
+    width: 90%;
+    max-width: 400px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+    animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 25px;
+    text-align: center;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1.6em;
+}
+
+.modal-content div {
+    margin-bottom: 18px;
+}
+
+.modal-content label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--dark-gray);
+    font-size: 0.95em;
+}
+
+.modal-content input[type="text"],
+.modal-content input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--border-radius);
+    font-size: 1em;
+    font-family: 'National', Arial, sans-serif;
+    font-weight: 400;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal-content input[type="text"]:focus,
+.modal-content input[type="password"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 94, 165, 0.2);
+}
+
+.modal-buttons {
+    text-align: right;
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-buttons button {
+    margin-left: 10px;
+}
+.modal-buttons button:first-child {
+    margin-left: 0;
+}
+
+/* --- Responsiveness --- */
+@media (max-width: 600px) {
+    body {
+        padding: 15px; /* Base padding */
+        padding-top: 70px; /* << Adjust top padding for smaller logo */
+    }
+
+    #logo {
+        top: 15px;          /* Adjust position */
+        left: 15px;         /* Adjust position */
+        width: 70px;       /* Smaller logo */
+    }
+
+    #changeCredsBtn {
+        top: 15px;          /* Adjust position */
+        right: 15px;        /* Adjust position */
+        padding: 6px 10px;
+        font-size: 0.75em;
+    }
+
+    h1 {
+        font-size: 1.8em;
+        margin-bottom: 25px;
+        /* margin-top: 70px; << REMOVED - Let body padding handle it */
+    }
+
+    #result {
+        padding: 20px;
+        min-height: 80px;
+        font-size: 1em;
+    }
+
+    .modal-content {
+        padding: 20px 25px;
+        max-width: 95%; /* Allow modal to use more width */
+    }
+
+    .modal-content h2 {
+        font-size: 1.4em;
+        margin-bottom: 20px;
+    }
+
+     button {
+         padding: 10px 15px;
+         font-size: 0.9em;
+     }
+
+     .modal-buttons {
+        margin-top: 20px;
+     }
+}
