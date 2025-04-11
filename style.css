@@ -22,9 +22,10 @@
 
 /* --- General Styles --- */
 :root {
-    --primary-color: #00ff00;
+    --primary-color: #005ea5;
     --secondary-color: #6ebe28; /* << UPDATED Green */
     --secondary-dark-color: #5ca324; /* << ADDED Darker green for hover */
+    --supergreen-color: #005ea5;
     --danger-color: #d9534f;
     --light-gray: #f7f7f7;
     --medium-gray: #e1e1e1;
@@ -117,7 +118,7 @@ h1 {
 /* --- Loading Animation (Keep as is) --- */
 .loader {
     border: 5px solid var(--medium-gray);
-    border-top: 5px solid var(--primary-color);
+    border-top: 5px solid var(--supergreen-color);
     border-radius: 50%;
     width: 40px;
     height: 40px;
