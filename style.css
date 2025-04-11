@@ -290,107 +290,127 @@ button:active {
 /* --- Responsiveness --- */
 @media (max-width: 600px) {
     body {
-        padding: 25px; /* Increase base padding */
-        padding-top: 100px; /* More top padding */
-        font-size: 17px; /* Increase base font size for mobile */
+        padding: 20px; /* Keep reasonable padding */
+        padding-top: 90px; /* Keep space for logo */
+        font-size: 16px; /* Set a solid base font size for mobile (can adjust if needed) */
     }
 
     #logo {
-        top: 25px;
-        left: 25px;
-        width: 160px;       /* << Significantly Larger Logo */
+        top: 20px;
+        left: 20px;
+        width: 130px;       /* Moderate logo size */
     }
 
     #changeCredsBtn {
-        top: 25px;
-        right: 25px;
-        padding: 12px 16px; /* << Larger Padding */
-        font-size: 1.0em;   /* << Larger Font Size */
+        top: 20px;
+        right: 20px;
+        padding: 10px 14px; /* Make touchable */
+        font-size: 0.95em;
     }
 
     h1 {
-        font-size: 2.4em;   /* << Larger Font Size (maybe even > desktop) */
-        margin-bottom: 40px;
-        line-height: 1.2; /* Adjust line height if text wraps */
+        font-size: 2.1em;   /* Keep heading large */
+        margin-bottom: 35px;
+        line-height: 1.25;
     }
 
     #result {
-        padding: 30px;     /* << More Padding */
-        min-height: 130px; /* << Larger Min Height */
-        font-size: 1.2em;  /* << Larger Font Size */
+        padding: 25px;
+        min-height: 120px;
+        font-size: 1.1em; /* Keep result text readable */
         max-width: 100%;
-        border-radius: 8px; /* Slightly larger radius */
+        border-radius: 7px;
     }
 
     #result span {
-        margin-bottom: 20px;
+        margin-bottom: 18px;
     }
 
     .loader {
-        width: 50px;       /* << Larger Loader */
-        height: 50px;
-        border-width: 7px;
-        margin: 25px auto; /* More margin */
+        width: 45px;
+        height: 45px;
+        border-width: 6px;
+        margin: 20px auto;
     }
 
-    button { /* General button sizing */
-        padding: 18px 28px; /* << Much Larger Padding */
-        font-size: 1.15em;  /* << Larger Font */
-        font-weight: 700;   /* << Bolder Font */
-        border-radius: 6px; /* Slightly larger radius */
-        letter-spacing: 0.8px; /* More spacing */
+     /* General Button Size - Keep large for main action buttons */
+    button {
+        padding: 16px 25px;
+        font-size: 1.1em;
+        font-weight: 700;
+        border-radius: 6px;
+        letter-spacing: 0.6px;
     }
 
     #updateBtn {
-         margin-top: 25px; /* More space */
+         margin-top: 20px;
     }
 
-    /* Modal Adjustments */
+
+    /* ======================================== */
+    /* == HEAVY FOCUS ON MODAL MOBILE SIZE == */
+    /* ======================================== */
+
     #credentialModal {
-         padding-top: 30px; /* Adjust as needed */
+         padding-top: 20px; /* Less top padding to give modal more space */
+         padding-bottom: 20px;
     }
 
     .modal-content {
-        padding: 30px 35px; /* << More Padding */
+        padding: 25px; /* Slightly less padding L/R to maximize content area */
+        margin: 5% auto; /* Reduce top margin slightly */
         max-width: 95%;
         border-radius: 8px;
     }
 
     .modal-content h2 {
-        font-size: 1.8em;   /* << Larger Title */
-        margin-bottom: 30px;
+        font-size: 1.6em;   /* << Larger Title */
+        margin-bottom: 28px;
+        font-weight: 700; /* Bolder */
     }
 
      .modal-content label {
-        font-size: 1.1em;   /* << Larger Label */
-        font-weight: 600;   /* Bolder label */
-        margin-bottom: 12px;
+        font-size: 1.1em;   /* << Significantly Larger Label */
+        font-weight: 600;   /* Bolder */
+        margin-bottom: 10px; /* More space below label */
      }
 
     .modal-content input[type="text"],
     .modal-content input[type="password"] {
-        padding: 18px;     /* << Much Larger Input Padding */
-        font-size: 1.15em; /* << Larger Input Font */
+        padding: 16px 14px; /* << Large Vertical Padding, standard horizontal */
+        font-size: 1.2em; /* << Larger Input Font */
+        line-height: 1.4; /* Ensure text isn't cramped vertically */
         border-radius: 6px;
+        margin-bottom: 20px; /* << Add space BELOW each input */
     }
+     /* Remove extra margin-bottom from the container div */
+     .modal-content div {
+        margin-bottom: 0;
+     }
 
-     /* Stack Modal Buttons on mobile */
+
+     /* Modal Buttons - Stacked is highly recommended */
     .modal-buttons {
-        margin-top: 35px;
+        margin-top: 20px; /* Adjust spacing above buttons */
         display: flex;
-        flex-direction: column; /* << STACK Vertically */
-        gap: 15px;              /* << Add space BETWEEN stacked buttons */
-        align-items: stretch;   /* << Make buttons full width of container */
+        flex-direction: column; /* Stack Vertically */
+        gap: 15px;              /* Space BETWEEN stacked buttons */
+        align-items: stretch;   /* Make buttons full width */
     }
 
+    /* Style modal buttons specifically for size */
     .modal-buttons button {
-         /* Inherits larger general button styles */
-         margin-left: 0; /* Remove left margin when stacked */
-         width: 100%;    /* Make buttons take full width */
+        font-size: 1.2em;   /* << Larger Font */
+        padding: 18px 25px; /* << Large Padding */
+        font-weight: 700;
+        text-transform: uppercase; /* Optional: make modal buttons uppercase */
+        letter-spacing: 0.8px;
+         width: 100%; /* Explicitly set width (redundant with align-items, but safe) */
+         margin-left: 0; /* Remove default margin */
     }
     /* Optional: Reverse button order visually when stacked */
-    /* .modal-buttons button#saveCredBtn {
-        order: -1;
-    } */
+    .modal-buttons button#saveCredBtn {
+        order: -1; /* Make Save/Check appear first */
+    }
 
 }
