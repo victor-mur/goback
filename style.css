@@ -22,7 +22,7 @@
 
 /* --- General Styles --- */
 :root {
-    --primary-color: #005ea5;
+    --primary-color: #00ff00;
     --secondary-color: #6ebe28; /* << UPDATED Green */
     --secondary-dark-color: #5ca324; /* << ADDED Darker green for hover */
     --danger-color: #d9534f;
