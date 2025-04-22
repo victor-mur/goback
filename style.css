@@ -5,6 +5,7 @@
     font-weight: 100;
     font-style: normal;
 }
+
 /* ... other @font-face rules ... */
 @font-face {
     font-family: 'National';
@@ -12,6 +13,7 @@
     font-weight: 900;
     font-style: italic;
 }
+
 /* --- Bold Font --- */
 @font-face {
     font-family: 'National';
@@ -23,15 +25,18 @@
 /* --- General Styles --- */
 :root {
     --primary-color: #005ea5;
-    --secondary-color: #6ebe28; /* << UPDATED Green */
-    --secondary-dark-color: #5ca324; /* << ADDED Darker green for hover */
+    --secondary-color: #6ebe28;
+    /* << UPDATED Green */
+    --secondary-dark-color: #5ca324;
+    /* << ADDED Darker green for hover */
     --supergreen-color: #00ff00;
     --danger-color: #d9534f;
     --light-gray: #f7f7f7;
     --medium-gray: #e1e1e1;
     --dark-gray: #555;
     --text-color: #333;
-    --black-color: #000000; /* << ADDED Explicit black */
+    --black-color: #000000;
+    /* << ADDED Explicit black */
     --border-radius: 5px;
 }
 
@@ -51,8 +56,10 @@ body {
     background-color: var(--light-gray);
     color: var(--text-color);
     margin: 0;
-    padding: 20px; /* Base padding */
-    padding-top: 80px; /* << ADDED More top padding to make space for absolute logo */
+    padding: 20px;
+    /* Base padding */
+    padding-top: 80px;
+    /* << ADDED More top padding to make space for absolute logo */
     position: relative;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -61,10 +68,14 @@ body {
 
 /* --- Logo --- */
 #logo {
-    position: absolute; /* << Position independently */
-    top: 20px;         /* << Distance from top */
-    left: 20px;        /* << Distance from left */
-    width: 250px;       /* Adjust size as needed */
+    position: absolute;
+    /* << Position independently */
+    top: 20px;
+    /* << Distance from top */
+    left: 20px;
+    /* << Distance from left */
+    width: 250px;
+    /* Adjust size as needed */
     height: auto;
     /* margin-bottom: 20px; << REMOVED - No longer needed in flow */
 }
@@ -72,11 +83,14 @@ body {
 h1 {
     font-family: 'National', Arial, sans-serif;
     font-weight: 700;
-    color: var(--black-color); /* << UPDATED to black */
+    color: var(--black-color);
+    /* << UPDATED to black */
     text-align: center;
     /* margin: 0 0 35px 0; << REMOVED/REPLACED */
-    margin-top: 0; /* << Let body padding handle top space */
-    margin-bottom: 35px; /* Adjust spacing below title */
+    margin-top: 0;
+    /* << Let body padding handle top space */
+    margin-bottom: 35px;
+    /* Adjust spacing below title */
     font-size: 2.2em;
 }
 
@@ -102,14 +116,16 @@ h1 {
 }
 
 #result span {
-    display: block;
-    margin-bottom: 15px;
+    display: inline-flex;
+    align-items: center;
 }
+
 /* Add styling for the link in error message */
 #result a {
     color: var(--primary-color);
     text-decoration: underline;
 }
+
 #result a:hover {
     color: #004a8f;
 }
@@ -118,7 +134,7 @@ h1 {
 /* --- Loading Animation (Keep as is) --- */
 .loader {
     border: 5px solid var(--medium-gray);
-    border-top: 5px solid var(--supergreen-color);
+    border-top: 5px solid var(--secondary-dark-color);
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -127,15 +143,21 @@ h1 {
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 /* --- Buttons --- */
 button {
     font-family: 'National', Arial, sans-serif;
     font-weight: 600;
-    background-color: var(--secondary-color); /* Use the updated green */
+    background-color: var(--secondary-color);
+    /* Use the updated green */
     color: white;
     border: none;
     padding: 12px 20px;
@@ -149,7 +171,8 @@ button {
 }
 
 button:hover {
-    background-color: var(--secondary-dark-color); /* << UPDATED Darker green */
+    background-color: var(--secondary-dark-color);
+    /* << UPDATED Darker green */
     transform: translateY(-1px);
 }
 
@@ -159,22 +182,49 @@ button:active {
 
 /* Specific Button Styles */
 #updateBtn {
-     margin-top: 15px;
-     /* Inherits base button style (now green) */
+    margin-top: 15px;
+}
+
+#exploreBtn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    /* Adjust side as needed */
+    padding: 14px 24px;
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-family: 'National', Arial, sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+}
+
+#exploreBtn:hover {
+    background-color: var(--secondary-dark-color);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
 #changeCredsBtn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px; /* Adjust side as needed */
     background-color: var(--primary-color);
-    color: white; /* Ensure text is white */
+    color: white;
     font-size: 0.8em;
     font-weight: 500;
     padding: 8px 12px;
     text-transform: none;
     letter-spacing: 0;
+    z-index: 100;
 }
+
 #changeCredsBtn:hover {
     background-color: #004a8f;
 }
@@ -182,15 +232,19 @@ button:active {
 #cancelCredBtn {
     background-color: var(--dark-gray);
 }
+
 #cancelCredBtn:hover {
     background-color: #444;
 }
 
 #saveCredBtn {
-     background-color: var(--secondary-color); /* Use the updated green */
+    background-color: var(--secondary-color);
+    /* Use the updated green */
 }
+
 #saveCredBtn:hover {
-     background-color: var(--secondary-dark-color); /* Use the updated darker green */
+    background-color: var(--secondary-dark-color);
+    /* Use the updated darker green */
 }
 
 
@@ -219,7 +273,7 @@ button:active {
     width: 90%;
     max-width: 400px;
     border-radius: var(--border-radius);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
     animation: slideDown 0.4s ease-out;
 }
 
@@ -228,6 +282,7 @@ button:active {
         transform: translateY(-30px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -284,134 +339,44 @@ button:active {
 .modal-buttons button {
     margin-left: 10px;
 }
+
 .modal-buttons button:first-child {
     margin-left: 0;
 }
 
-/* --- Responsiveness --- */
+/* --- Responsiveness for Mobile Devices --- */
 @media (max-width: 600px) {
+    /* Increase overall font size and adjust spacing for better readability */
     body {
-        padding: 20px; /* Keep reasonable padding */
-        padding-top: 90px; /* Keep space for logo */
-        font-size: 16px; /* Set a solid base font size for mobile (can adjust if needed) */
-    }
-
-    #logo {
-        top: 20px;
-        left: 20px;
-        width: 130px;       /* Moderate logo size */
-    }
-
-    #changeCredsBtn {
-        top: 20px;
-        right: 20px;
-        padding: 10px 14px; /* Make touchable */
-        font-size: 0.95em;
+        padding: 15px;
+        padding-top: 80px;
+        font-size: 1.1em;
     }
 
     h1 {
-        font-size: 2.1em;   /* Keep heading large */
-        margin-bottom: 35px;
-        line-height: 1.25;
+        font-size: 2.5em;
     }
 
-    #result {
-        padding: 25px;
-        min-height: 120px;
-        font-size: 1.1em; /* Keep result text readable */
-        max-width: 100%;
-        border-radius: 7px;
-    }
-
-    #result span {
-        margin-bottom: 18px;
-    }
-
-    .loader {
-        width: 45px;
-        height: 45px;
-        border-width: 6px;
-        margin: 20px auto;
-    }
-
-     /* General Button Size - Keep large for main action buttons */
     button {
-        padding: 16px 25px;
+        padding: 14px 22px;
         font-size: 1.1em;
-        font-weight: 700;
-        border-radius: 6px;
-        letter-spacing: 0.6px;
     }
 
-    #updateBtn {
-         margin-top: 20px;
+    /* Resize logo and adjust its position */
+    #logo {
+        width: 200px;
+        top: 10px;
+        left: 10px;
     }
 
-
-    /* ======================================== */
-    /* == HEAVY FOCUS ON MODAL MOBILE SIZE == */
-    /* ======================================== */
-
-    #credentialModal {
-         padding-top: 20px; /* Less top padding to give modal more space */
-         padding-bottom: 20px;
+    /* Improve visibility in result areas */
+    #result {
+        padding: 30px 20px;
+        font-size: 1.2em;
     }
 
+    /* Adjust modal content padding for smaller screens */
     .modal-content {
-        padding: 25px; /* Slightly less padding L/R to maximize content area */
-        margin: 5% auto; /* Reduce top margin slightly */
-        max-width: 95%;
-        border-radius: 8px;
+        padding: 25px;
     }
-
-    .modal-content h2 {
-        font-size: 1.6em;   /* << Larger Title */
-        margin-bottom: 28px;
-        font-weight: 700; /* Bolder */
-    }
-
-     .modal-content label {
-        font-size: 1.1em;   /* << Significantly Larger Label */
-        font-weight: 600;   /* Bolder */
-        margin-bottom: 10px; /* More space below label */
-     }
-
-    .modal-content input[type="text"],
-    .modal-content input[type="password"] {
-        padding: 16px 14px; /* << Large Vertical Padding, standard horizontal */
-        font-size: 1.2em; /* << Larger Input Font */
-        line-height: 1.4; /* Ensure text isn't cramped vertically */
-        border-radius: 6px;
-        margin-bottom: 20px; /* << Add space BELOW each input */
-    }
-     /* Remove extra margin-bottom from the container div */
-     .modal-content div {
-        margin-bottom: 0;
-     }
-
-
-     /* Modal Buttons - Stacked is highly recommended */
-    .modal-buttons {
-        margin-top: 20px; /* Adjust spacing above buttons */
-        display: flex;
-        flex-direction: column; /* Stack Vertically */
-        gap: 15px;              /* Space BETWEEN stacked buttons */
-        align-items: stretch;   /* Make buttons full width */
-    }
-
-    /* Style modal buttons specifically for size */
-    .modal-buttons button {
-        font-size: 1.2em;   /* << Larger Font */
-        padding: 18px 25px; /* << Large Padding */
-        font-weight: 700;
-        text-transform: uppercase; /* Optional: make modal buttons uppercase */
-        letter-spacing: 0.8px;
-         width: 100%; /* Explicitly set width (redundant with align-items, but safe) */
-         margin-left: 0; /* Remove default margin */
-    }
-    /* Optional: Reverse button order visually when stacked */
-    .modal-buttons button#saveCredBtn {
-        order: -1; /* Make Save/Check appear first */
-    }
-
 }

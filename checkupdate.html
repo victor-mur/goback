@@ -2,16 +2,17 @@
 <html>
 
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Versionsprüfung</title> <!-- Optional: Title also translated -->
     <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <!-- Button to re-open the credential prompt -->
-    <button id="changeCredsBtn">Zugangsdaten ändern</button> <!-- Optional: Translate button -->
-
+    <button id="exploreBtn" onclick="window.open('https://gemeinwohl-bauen-praktisch.de', '_blank');">
+        Mehr entdecken
+    </button>
     <!-- Add the logo -->
     <img src="logo.svg" alt="Logo" id="logo">
 
@@ -26,10 +27,11 @@
     <!-- Credential Modal (keep as is, or translate labels/buttons if desired) -->
     <div id="credentialModal">
         <div class="modal-content">
-             <h2>Zugangsdaten eingeben</h2> <!-- Optional: Translate modal title -->
+            <h2>Zugangsdaten eingeben</h2> <!-- Optional: Translate modal title -->
             <div>
                 <label for="modalServer">Server Domain:</label>
-                <input type="text" id="modalServer" placeholder="z.B., example.com" /> <!-- Optional: Translate placeholder -->
+                <input type="text" id="modalServer" placeholder="z.B., example.com" />
+                <!-- Optional: Translate placeholder -->
             </div>
             <div>
                 <label for="modalUsername">Benutzername:</label> <!-- Optional: Translate label -->
@@ -40,11 +42,16 @@
                 <input type="password" id="modalPassword" />
             </div>
             <div class="modal-buttons">
-                 <button id="cancelCredBtn">Abbrechen</button> <!-- Optional: Translate button -->
+                <button id="cancelCredBtn">Abbrechen</button> <!-- Optional: Translate button -->
                 <button id="saveCredBtn">Speichern & Prüfen</button> <!-- Optional: Translate button -->
             </div>
         </div>
     </div>
+
+    <footer>
+        <!-- Button to re-open the credential prompt -->
+        <button id="changeCredsBtn">Zugangsdaten ändern</button> <!-- Optional: Translate button -->
+    </footer>
 
     <!-- Keep the existing <script> block -->
     <script>
@@ -70,11 +77,11 @@
                 if (loader) {
                     loader.remove();
                 }
-                 // Optional: Add back a default message if needed, or clear entirely
-                 // resultEl.innerHTML = '';
+                // Optional: Add back a default message if needed, or clear entirely
+                // resultEl.innerHTML = '';
             }
 
-             function displayMessage(htmlContent) {
+            function displayMessage(htmlContent) {
                 hideLoader(); // Ensure loader is hidden
                 resultEl.innerHTML = htmlContent; // Set the new message/content
             }
@@ -101,7 +108,7 @@
                     lastTwoSegments[0] = lastTwoSegments[0] + '_Dokumente'; // Append '_Dokumente'
                     path = lastTwoSegments.join('/');
                 } else if (segments.length === 1) {
-                     // Handle case with only one segment after filtering
+                    // Handle case with only one segment after filtering
                     path = segments[0] + '_Dokumente'; // Or decide on other behavior
                 } else {
                     path = ""; // Handle case with no valid segments
@@ -110,7 +117,7 @@
                 return path;
             }
 
-             // Get PDF metadata dates (CreationDate/ModDate) with workaround
+            // Get PDF metadata dates (CreationDate/ModDate) with workaround
             function getDates(doc) {
                 const cdate = doc.getCreationDate();
                 const mdate = cdate && doc.getModificationDate();
@@ -123,7 +130,7 @@
                     if (!window.PDFLib) return undefined; // Guard against PDFLib not loaded
                     if (obj instanceof PDFLib.PDFString || obj instanceof PDFLib.PDFHexString) {
                         try {
-                           return obj.decodeDate();
+                            return obj.decodeDate();
                         } catch (e) {
                             console.warn("Datum konnte nicht dekodiert werden:", obj.toString(), e);
                             return undefined; // Handle potential decoding errors
@@ -132,12 +139,12 @@
                     return undefined;
                 }
 
-                 // Use PDFLib.PDFName.of() only if PDFLib is fully loaded
-                 if (!window.PDFLib || !window.PDFLib.PDFName) {
+                // Use PDFLib.PDFName.of() only if PDFLib is fully loaded
+                if (!window.PDFLib || !window.PDFLib.PDFName) {
                     console.error("PDFLib oder PDFName nicht verfügbar");
                     return { cdate: undefined, mdate: undefined };
                 }
-                 const PDFName = window.PDFLib.PDFName;
+                const PDFName = window.PDFLib.PDFName;
 
 
                 for (const [_ref, obj] of doc.context.enumerateIndirectObjects()) {
@@ -161,7 +168,7 @@
                 modalUsernameInput.value = localStorage.getItem("username") || "";
                 modalPasswordInput.value = localStorage.getItem("password") || "";
                 modal.style.display = "block";
-                 // Small delay to allow display:block to render before focusing and animation
+                // Small delay to allow display:block to render before focusing and animation
                 setTimeout(() => modalServerInput.focus(), 50);
             }
 
@@ -181,16 +188,16 @@
                 }
 
                 const pdfPath = normalizePath(pdfPathRaw);
-                 if (!pdfPath) {
+                if (!pdfPath) {
                     displayMessage("<span>Aus dem Parameter ‚path‘ konnte kein gültiger PDF-Pfad ermittelt werden.</span>");
                     return;
                 }
 
                 const localDate = new Date(localDateStr);
-                 if (isNaN(localDate.getTime())) {
-                     displayMessage("<span>Ungültiger ‚date‘-Parameter in der URL.</span>");
-                     return;
-                 }
+                if (isNaN(localDate.getTime())) {
+                    displayMessage("<span>Ungültiger ‚date‘-Parameter in der URL.</span>");
+                    return;
+                }
 
                 showLoader(); // Show loader before starting the check
                 const fetchUrl = `https://${serverDomain}/fileadmin/user_upload/${pdfPath}`;
@@ -210,15 +217,15 @@
                     });
 
                     if (!response.ok) {
-                         if (response.status === 404) {
-                             displayMessage(`<span>Fehler: PDF nicht gefunden unter <code>${fetchUrl}</code>.<br>Prüfen Sie Pfad und Zugangsdaten.</span>`);
-                         } else if (response.status === 401) {
-                             displayMessage("<span>Fehler: Authentifizierung fehlgeschlagen.<br>Prüfen Sie Benutzername/Passwort.</span>");
-                             // Optionally, show the modal again on auth failure
-                             // setTimeout(showModal, 500); // Delay showing modal again
-                         } else {
+                        if (response.status === 404) {
+                            displayMessage(`<span>Fehler: PDF nicht gefunden unter <code>${fetchUrl}</code>.<br>Prüfen Sie Pfad und Zugangsdaten.</span>`);
+                        } else if (response.status === 401) {
+                            displayMessage("<span>Fehler: Authentifizierung fehlgeschlagen.<br>Prüfen Sie Benutzername/Passwort.</span>");
+                            // Optionally, show the modal again on auth failure
+                            // setTimeout(showModal, 500); // Delay showing modal again
+                        } else {
                             displayMessage(`<span>Fehler beim Abrufen von PDF: ${response.status} ${response.statusText}</span>`);
-                         }
+                        }
                         console.error("Fetch error:", response);
                         return;
                     }
@@ -237,24 +244,24 @@
                         const { cdate, mdate } = getDates(pdfDoc);
                         console.log("Extracted PDF Dates - Creation:", cdate, "Modification:", mdate);
 
-                         if (mdate instanceof Date && !isNaN(mdate.getTime())) {
+                        if (mdate instanceof Date && !isNaN(mdate.getTime())) {
                             remoteDate = mdate;
                             remoteDateStr = remoteDate.toUTCString();
-                         } else if (cdate instanceof Date && !isNaN(cdate.getTime())) {
-                             remoteDate = cdate;
-                             remoteDateStr = remoteDate.toUTCString();
-                         } else if (remoteDateStr) {
-                             remoteDate = new Date(remoteDateStr);
-                         }
+                        } else if (cdate instanceof Date && !isNaN(cdate.getTime())) {
+                            remoteDate = cdate;
+                            remoteDateStr = remoteDate.toUTCString();
+                        } else if (remoteDateStr) {
+                            remoteDate = new Date(remoteDateStr);
+                        }
 
                     } catch (e) {
                         console.error("Error loading PDF or extracting metadata:", e);
                         if (remoteDateStr) {
                             remoteDate = new Date(remoteDateStr);
-                             console.warn("Could not parse PDF metadata, falling back to Last-Modified header:", remoteDateStr);
+                            console.warn("Could not parse PDF metadata, falling back to Last-Modified header:", remoteDateStr);
                         } else {
-                             displayMessage("<span>Fehler bei der Verarbeitung von PDF. Remote-Datum konnte nicht ermittelt werden.</span>");
-                             return;
+                            displayMessage("<span>Fehler bei der Verarbeitung von PDF. Remote-Datum konnte nicht ermittelt werden.</span>");
+                            return;
                         }
                     }
 
@@ -275,52 +282,52 @@
                     hideLoader(); // Hide loader before showing result
 
                     if (isUpToDate) {
-                        displayMessage("<span>Ihre lokale Version scheint aktuell zu sein.</span>");
+                        displayMessage("<span style='color: green;'>&#x2714; Ihre lokale Version scheint aktuell zu sein.</span>");
                         console.log("Result: Up to date.");
                     } else {
                         const displayDate = remoteDate.toLocaleString('de-DE', { // Use German locale for date format
-                             year: 'numeric', month: 'long', day: 'numeric',
-                             hour: '2-digit', minute: '2-digit'
-                         });
+                            year: 'numeric', month: 'long', day: 'numeric',
+                            hour: '2-digit', minute: '2-digit'
+                        });
                         // Build HTML for the result message and button
-                        let resultHTML = `<span>Eine neuere Version ist verfügbar.<br>Datum der Serverversion: ${displayDate} Uhr</span>`; // Added Uhr
+                        let resultHTML = `<span style='color: red;'>&#x2717; Eine neuere Version ist verfügbar.</span><span><br>Datum der Serverversion: ${displayDate} Uhr</span>`; // Added Uhr
                         resultHTML += `<button id="updateBtn">Neue Version öffnen</button>`;
                         displayMessage(resultHTML);
 
                         // Add event listener to the newly created button
                         const updateBtn = document.getElementById("updateBtn");
                         if (updateBtn) {
-                             updateBtn.addEventListener("click", function () {
+                            updateBtn.addEventListener("click", function () {
                                 displayMessage('<span>Öffne PDF...</span><div class="loader"></div>'); // Show loading message while fetching blob
                                 fetch(fetchUrl, {
                                     headers: { 'Authorization': 'Basic ' + btoa(username + ':' + password) }
                                 })
-                                .then(res => {
-                                    if (!res.ok) throw new Error(`Failed to fetch PDF for opening: ${res.statusText}`);
-                                    return res.blob()
-                                })
-                                .then(blob => {
-                                    const url = window.URL.createObjectURL(blob);
-                                    window.open(url, '_blank');
-                                    // Revert message after a short delay, assuming window opened
-                                     // Find the button again in the potentially recreated HTML
-                                     const currentUpdateBtn = document.getElementById("updateBtn");
-                                     if (!currentUpdateBtn) { // If button doesn't exist anymore, just show the text part
-                                        displayMessage(`<span>Eine neuere Version ist verfügbar.<br>Datum der Serverversion: ${displayDate} Uhr</span>`);
-                                     } else {
-                                        displayMessage(resultHTML); // Restore the full message with button
-                                        // RE-ATTACH listener after restoring HTML
-                                        document.getElementById("updateBtn").addEventListener("click", this.onclick);
-                                     }
-                                    // Optional: Clean up the object URL after some time
-                                    setTimeout(() => window.URL.revokeObjectURL(url), 10000);
-                                })
-                                .catch(err => {
-                                    console.error("Error creating blob URL for download:", err);
-                                    displayMessage(`<span>Fehler beim Öffnen der neuen Version. <a href="${fetchUrl}" target="_blank">Direktlink versuchen</a></span>`);
-                                    // Fallback to direct link if blob creation fails
-                                    // window.open(fetchUrl, '_blank'); // Alternative: open direct link immediately on error
-                                });
+                                    .then(res => {
+                                        if (!res.ok) throw new Error(`Failed to fetch PDF for opening: ${res.statusText}`);
+                                        return res.blob()
+                                    })
+                                    .then(blob => {
+                                        const url = window.URL.createObjectURL(blob);
+                                        window.open(url, '_blank');
+                                        // Revert message after a short delay, assuming window opened
+                                        // Find the button again in the potentially recreated HTML
+                                        const currentUpdateBtn = document.getElementById("updateBtn");
+                                        if (!currentUpdateBtn) { // If button doesn't exist anymore, just show the text part
+                                            displayMessage(`<span>Eine neuere Version ist verfügbar.<br>Datum der Serverversion: ${displayDate} Uhr</span>`);
+                                        } else {
+                                            displayMessage(resultHTML); // Restore the full message with button
+                                            // RE-ATTACH listener after restoring HTML
+                                            document.getElementById("updateBtn").addEventListener("click", this.onclick);
+                                        }
+                                        // Optional: Clean up the object URL after some time
+                                        setTimeout(() => window.URL.revokeObjectURL(url), 10000);
+                                    })
+                                    .catch(err => {
+                                        console.error("Error creating blob URL for download:", err);
+                                        displayMessage(`<span>Fehler beim Öffnen der neuen Version. <a href="${fetchUrl}" target="_blank">Direktlink versuchen</a></span>`);
+                                        // Fallback to direct link if blob creation fails
+                                        // window.open(fetchUrl, '_blank'); // Alternative: open direct link immediately on error
+                                    });
                             });
                         }
                         console.log("Result: Newer version available.");
@@ -353,9 +360,9 @@
             cancelCredBtn.addEventListener("click", () => {
                 hideModal();
                 const savedServer = localStorage.getItem("server");
-                 if (!savedServer) {
+                if (!savedServer) {
                     displayMessage("<span>Keine Anmeldedaten angegeben. Version kann nicht geprüft werden.</span>");
-                 }
+                }
             });
 
             changeCredsBtn.addEventListener("click", showModal);
@@ -368,26 +375,26 @@
 
                 if (savedServer && savedUsername && savedPassword) {
                     console.log("Credentials found in localStorage. Checking version automatically.");
-                     displayMessage('<span>Prüfe Zugangsdaten...</span>'); // Initial message
+                    displayMessage('<span>Prüfe Zugangsdaten...</span>'); // Initial message
                     // Check if pdf-lib is ready
-                     const checkReady = setInterval(() => {
-                         if (window.PDFLib) {
-                             clearInterval(checkReady);
-                             console.log("pdf-lib ready, checking version.");
-                             checkPdfVersion(savedServer, savedUsername, savedPassword);
-                         } else {
+                    const checkReady = setInterval(() => {
+                        if (window.PDFLib) {
+                            clearInterval(checkReady);
+                            console.log("pdf-lib ready, checking version.");
+                            checkPdfVersion(savedServer, savedUsername, savedPassword);
+                        } else {
                             console.warn("Waiting for pdf-lib...");
-                         }
-                     }, 100); // Check every 100ms
+                        }
+                    }, 100); // Check every 100ms
 
                     // Safety timeout
-                     setTimeout(() => {
+                    setTimeout(() => {
                         if (!window.PDFLib) {
                             clearInterval(checkReady);
                             displayMessage("<span>Fehler: PDF-Bibliothek konnte nicht geladen werden.</span>");
                             console.error("PDFLib failed to load after timeout.");
                         }
-                     }, 5000); // Wait max 5 seconds
+                    }, 5000); // Wait max 5 seconds
 
                 } else {
                     console.log("Credentials not found. Showing modal.");
@@ -397,14 +404,14 @@
             });
 
             // Close modal if user clicks outside the modal content
-            window.onclick = function(event) {
-              if (event.target == modal) {
-                hideModal();
-                 const savedServer = localStorage.getItem("server");
-                 if (!savedServer) {
-                    displayMessage("<span>Keine Anmeldedaten angegeben. Version kann nicht geprüft werden.</span>");
-                 }
-              }
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    hideModal();
+                    const savedServer = localStorage.getItem("server");
+                    if (!savedServer) {
+                        displayMessage("<span>Keine Anmeldedaten angegeben. Version kann nicht geprüft werden.</span>");
+                    }
+                }
             }
 
         })();
