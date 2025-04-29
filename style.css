@@ -70,7 +70,7 @@ body {
 #logo {
     position: absolute;
     /* << Position independently */
-    top: 20px;
+    top: 15px;
     /* << Distance from top */
     left: 20px;
     /* << Distance from left */
@@ -362,10 +362,16 @@ button:active {
         font-size: 1.1em;
     }
 
+    /* make explore button smaller */
+    #exploreBtn {
+        padding: 12px 15px;
+        font-size: 0.9em;
+    }
+
     /* Resize logo and adjust its position */
     #logo {
-        width: 200px;
-        top: 10px;
+        width: 180px;
+        top: 20px;
         left: 10px;
     }
 
