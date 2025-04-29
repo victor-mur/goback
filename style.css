@@ -68,7 +68,7 @@ body {
 
 /* --- Logo --- */
 #logo {
-    position: absolute;
+    position: fixed;
     /* << Position independently */
     top: 15px;
     /* << Distance from top */
